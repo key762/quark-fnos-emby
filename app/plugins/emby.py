@@ -5,6 +5,7 @@ class Emby:
 
     default_config = {
         "order": "", # 执行顺序
+        "enable": "",  # 是否启用
         "url": "",  # Emby服务器地址
         "token": "",  # Emby服务器token
     }

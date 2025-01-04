@@ -346,4 +346,4 @@ def init():
 if __name__ == "__main__":
     init()
     reload_tasks()
-    app.run(debug=DEBUG, host="0.0.0.0", port=5005)
+    app.run(debug=DEBUG, host="0.0.0.0", port=5605)

@@ -117,6 +117,7 @@ class Fnos:
 
     default_config = {
         "order": "",  # 执行顺序
+        "enable": "",  # 是否启用
         "websocket": "",  # 飞牛的websocket地址
         "user": "",  # 飞牛的用户账号
         "password": "",  # 飞牛的用户密码

@@ -1,0 +1,7 @@
+APScheduler
+certifi
+Flask
+pycryptodome
+Requests
+treelib
+websockets
