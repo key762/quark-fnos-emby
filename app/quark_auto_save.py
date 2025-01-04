@@ -923,8 +923,8 @@ def do_save(account, tasklist=[]):
             # 调用插件
             if is_new_tree or is_rename:
                 print(f"🧩 调用插件")
-                for plugin_name, plugin in plugins.items():
-                    if plugin.is_active and (is_new_tree or is_rename):
+                for plugin_name, plugin in sorted(plugins.items(), key=lambda item: int(item[1].order)):
+                    if plugin.is_active and (is_new_tree or is_rename) and plugins.enable == "true":
                         task = (
                             plugin.run(task, account=account, tree=is_new_tree) or task
                         )

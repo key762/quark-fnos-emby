@@ -4,6 +4,7 @@ import requests
 class Emby:
 
     default_config = {
+        "order": "", # 执行顺序
         "url": "",  # Emby服务器地址
         "token": "",  # Emby服务器token
     }
@@ -11,7 +12,7 @@ class Emby:
         "try_match": True,  # 是否尝试匹配
         "media_id": "",  # 媒体ID，当为0时不刷新
     }
-    is_active = False
+    is_active = True
 
     def __init__(self, **kwargs):
         self.plugin_name = self.__class__.__name__.lower()

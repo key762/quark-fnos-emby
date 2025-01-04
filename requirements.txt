@@ -1,4 +1,7 @@
-flask
-apscheduler
-requests
-treelib
+APScheduler==3.10.4
+certifi==2024.12.14
+Flask==3.1.0
+pycryptodome==3.20.0
+Requests==2.32.3
+treelib==1.6.1
+websockets==14.1

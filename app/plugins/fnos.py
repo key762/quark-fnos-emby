@@ -116,6 +116,7 @@ def format_byte_repr(byte_num):
 class Fnos:
 
     default_config = {
+        "order": "",  # 执行顺序
         "websocket": "",  # 飞牛的websocket地址
         "user": "",  # 飞牛的用户账号
         "password": "",  # 飞牛的用户密码
@@ -218,5 +219,4 @@ class Fnos:
                         print(f"{response}")
             except Exception as e:
                 print(f"飞牛: 下载任务异常❌ {e}")
-            finally:
-                loop.run_until_complete(close_websocket(websocket))
+            loop.run_until_complete(close_websocket(websocket))
