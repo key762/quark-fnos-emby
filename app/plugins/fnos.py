@@ -181,15 +181,24 @@ class Fnos:
                         secret = json.loads(response).get('secret')
                         keys = decrypt(secret, aesKeyByte, aesIvByte)
                         Secret = base64.b64decode(keys)
-                        a = '{"reqid":"676cf70d00000000000000000003","files":['+','.join(dramaList)+'],"pathTo":"'+task_config.get("download_path")+'","overwrite":1,"description":"剧集自动下载","req":"file.cp"}'
-                        mark = base64.b64encode(HMAC.new(Secret, a.encode(), digestmod=SHA256).digest()).decode()
-                        loop.run_until_complete(websocket.send(mark + a))
+                        s = '{"reqid":"676cf70d00000000000000000003","path":"'+task_config.get("download_path")+'","req":"file.mkdir"}'
+                        mark = base64.b64encode(HMAC.new(Secret, s.encode(), digestmod=SHA256).digest()).decode()
+                        loop.run_until_complete(websocket.send(mark + s))
                     elif "pong" in response:
                         pass
-                    elif "676cf70d00000000000000000003" in response and '"sysNotify":"taskId"' in response:
+                    elif "676cf70d00000000000000000003" in response:
+                        if '"result":"succ"' in response or '"errno":4102' in response:
+                            print(f"飞牛:📄 文件夹处理完成 {task_config.get("download_path")}")
+                            a = '{"reqid":"676cf70d00000000000000000004","files":[' + ','.join(dramaList) + '],"pathTo":"' + task_config.get("download_path") + '","overwrite":1,"description":"ABetsy剧集下载","req":"file.cp"}'
+                            mark = base64.b64encode(HMAC.new(Secret, a.encode(), digestmod=SHA256).digest()).decode()
+                            loop.run_until_complete(websocket.send(mark + a))
+                        elif '"result":"fail"' in response:
+                            print(f"飞牛:📄 文件夹创建失败❌,请检查文件夹路径 {task_config.get("download_path")}")
+                            break
+                    elif "676cf70d00000000000000000004" in response and '"sysNotify":"taskId"' in response:
                         print(f"飞牛:💼 收到资源下载任务")
                         pass
-                    elif "676cf70d00000000000000000003" in response and 'percent' in response:
+                    elif "676cf70d00000000000000000004" in response and 'percent' in response:
                         data = json.loads(response)
                         if 'true' in self.download_wait.lower():
                             if num != 0 or num < int(data.get('percent')):
@@ -202,17 +211,17 @@ class Fnos:
                         else:
                             print(f"飞牛:🎞️ 下载任务后台执行")
                             break
-                    elif '"taskInfo":{"reqid":"676cf70d00000000000000000003"' in response:
+                    elif '"taskInfo":{"reqid":"676cf70d00000000000000000004"' in response:
                         pass
-                    elif "676cf70d00000000000000000003" in response and '"result":"succ"' in response:
+                    elif "676cf70d00000000000000000004" in response and '"result":"succ"' in response:
                         print()
                         print(f"飞牛: 下载任务完成✅")
                         break
-                    elif "676cf70d00000000000000000003" in response and '"result":"fail"' in response:
+                    elif "676cf70d00000000000000000004" in response and '"result":"fail"' in response:
                         print()
                         print(f"飞牛: 下载任务异常❌,检查您配置")
                         break
-                    elif "676cf70d00000000000000000003" in response and '"result":"cancel"' in response:
+                    elif "676cf70d00000000000000000004" in response and '"result":"cancel"' in response:
                         print()
                         print(f"飞牛: 下载任务被取消❌")
                         break
